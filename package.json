@@ -1,0 +1,12 @@
+{
+  "name": "crnt-dashboard",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.15",
+    "express": "^4.18.2"
+  }
+}
