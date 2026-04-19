@@ -10,14 +10,13 @@
     :root {
       --bg: #f7f6f3;
       --surface: #ffffff;
-      --surface2: #f2f1ee;
       --border: #e8e6e1;
       --text: #1a1916;
       --muted: #9c9a94;
-      --faint: #c8c6c0;
+      --faint: #d1cfc9;
       --pink: #e8407a;
       --peach: #f28444;
-      --green: #2d8a5e;
+      --green: #2a8a5a;
       --yellow: #c47f17;
       --red: #c0392b;
       --blue: #2563ab;
@@ -29,16 +28,16 @@
       background: var(--bg);
       color: var(--text);
       font-family: 'Instrument Sans', sans-serif;
-      font-size: 13px;
+      font-size: 14px;
       line-height: 1.5;
-      min-height: 100vh;
     }
 
+    /* ── HEADER ── */
     header {
-      background: var(--surface);
+      background: #fff;
       border-bottom: 1px solid var(--border);
       padding: 0 40px;
-      height: 56px;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -47,69 +46,85 @@
       z-index: 100;
     }
 
+    /* Logo matches website style — bold, gradient */
     .logo {
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      background: linear-gradient(90deg, var(--pink), var(--peach));
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-wordmark {
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      background: linear-gradient(90deg, var(--pink) 0%, var(--peach) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      line-height: 1;
     }
 
-    .header-right { display: flex; align-items: center; gap: 16px; }
+    .logo-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink), var(--peach));
+      margin-top: 2px;
+    }
 
-    .last-updated { color: var(--muted); font-size: 11px; }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .last-updated { font-size: 11px; color: var(--muted); }
 
     .refresh-btn {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--muted);
       font-family: 'Instrument Sans', sans-serif;
-      font-size: 11px;
-      padding: 5px 12px;
-      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
       cursor: pointer;
       transition: all 0.15s;
     }
     .refresh-btn:hover { color: var(--text); border-color: var(--faint); }
 
-    main { padding: 24px 40px 48px; }
+    /* ── MAIN ── */
+    main { padding: 28px 40px 60px; max-width: 1200px; }
 
-    /* LAUNCH BAR */
-    .launch-bar {
+    /* ── SPEND BAR ── */
+    .spend-bar {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px 28px;
+      border-radius: 14px;
+      padding: 24px 32px;
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
-      gap: 32px;
-      margin-bottom: 16px;
+      gap: 0;
     }
 
-    .launch-section { display: flex; flex-direction: column; }
+    .spend-total-block { flex-shrink: 0; }
 
-    .section-label {
+    .spend-label {
       font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
+      font-weight: 700;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--muted);
       margin-bottom: 4px;
     }
 
-    .launch-date-text {
-      font-family: 'Instrument Serif', serif;
-      font-size: 20px;
-      color: var(--text);
-    }
-
-    .divider { width: 1px; height: 36px; background: var(--border); flex-shrink: 0; }
-
-    .countdown-number {
-      font-size: 38px;
+    .spend-total-number {
+      font-size: 42px;
       font-weight: 700;
+      letter-spacing: -0.02em;
       line-height: 1;
       background: linear-gradient(90deg, var(--pink), var(--peach));
       -webkit-background-clip: text;
@@ -117,60 +132,264 @@
       background-clip: text;
     }
 
-    .chips { display: flex; gap: 8px; flex-wrap: wrap; }
-
-    .chip {
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 11px;
-      border: 1px solid var(--border);
+    .spend-currency {
+      font-size: 14px;
       color: var(--muted);
+      font-weight: 400;
+      margin-top: 4px;
     }
 
-    .chip.now { border-color: var(--peach); color: var(--peach); }
-
-    /* GRID */
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+    .spend-divider {
+      width: 1px;
+      height: 56px;
+      background: var(--border);
+      margin: 0 32px;
+      flex-shrink: 0;
     }
 
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 22px 24px;
-    }
-
-    .card.full { grid-column: 1 / -1; }
-
-    .card-header {
+    .spend-items {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      gap: 28px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+
+    .spend-item { }
+
+    .spend-item-name {
+      font-size: 12px;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .spend-item-meta {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+
+    .spend-item-amt {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 2px;
+    }
+
+    /* ── TOP ROW ── */
+    .top-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
       margin-bottom: 16px;
     }
 
-    .card-title {
+    /* ── CARDS ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+    }
+
+    .card-label {
       font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ── LAUNCH CARD ── */
+    .launch-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .countdown-number {
+      font-size: 64px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--pink), var(--peach));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 8px 0 4px;
+    }
+
+    .launch-date-text {
+      font-family: 'Instrument Serif', serif;
+      font-size: 16px;
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 8px;
+    }
+
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .timeline-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+
+    .timeline-item-label { color: var(--muted); }
+    .timeline-item-date { color: var(--text); font-weight: 500; }
+    .timeline-item-date.now { color: var(--peach); }
+
+    /* ── PROGRESS CARD ── */
+    .progress-big {
+      font-size: 56px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: var(--text);
+      margin: 8px 0 4px;
+    }
+
+    .progress-sub { font-size: 13px; color: var(--muted); }
+
+    .progress-bar-wrap {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .progress-bar-track {
+      height: 6px;
+      background: var(--bg);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--pink), var(--peach));
+      transition: width 0.6s ease;
+    }
+
+    .progress-area-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .progress-area-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .progress-area-name { flex: 1; color: var(--muted); }
+
+    .progress-area-track {
+      width: 80px;
+      height: 4px;
+      background: var(--bg);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-area-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--pink), var(--peach));
+    }
+
+    .progress-area-pct { font-size: 11px; color: var(--text); font-weight: 600; width: 28px; text-align: right; }
+
+    /* ── CONTENT PIPELINE CARD ── */
+    .pipeline-stages {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pipeline-stage-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+    }
+
+    .stage-name { width: 64px; color: var(--muted); flex-shrink: 0; }
+
+    .stage-track {
+      flex: 1;
+      height: 6px;
+      background: var(--bg);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .stage-fill {
+      height: 100%;
+      border-radius: 99px;
+    }
+
+    .stage-count { width: 20px; text-align: right; font-weight: 600; color: var(--text); font-size: 12px; }
+
+    .c-idea .stage-fill { background: var(--faint); }
+    .c-scripted .stage-fill { background: var(--yellow); }
+    .c-filmed .stage-fill { background: var(--blue); }
+    .c-edited .stage-fill { background: var(--peach); }
+    .c-posted .stage-fill { background: var(--green); }
+
+    /* ── CHECKLIST ── */
+    .checklist-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .checklist-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .checklist-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--muted);
     }
 
-    .card-count { font-size: 11px; color: var(--faint); }
-
-    /* FILTER */
-    .filter-row { display: flex; gap: 6px; margin-bottom: 14px; }
+    .filter-row {
+      display: flex;
+      gap: 6px;
+    }
 
     .filter-btn {
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
       padding: 4px 12px;
       border-radius: 20px;
-      font-size: 11px;
-      font-family: 'Instrument Sans', sans-serif;
-      font-weight: 500;
       border: 1px solid var(--border);
       background: transparent;
       color: var(--muted);
@@ -178,29 +397,109 @@
       transition: all 0.12s;
     }
 
-    .filter-btn.active { background: var(--text); color: #fff; border-color: var(--text); }
+    .filter-btn.active {
+      background: var(--text);
+      color: #fff;
+      border-color: var(--text);
+    }
 
-    /* TASKS */
-    .task-list { display: flex; flex-direction: column; }
+    /* AREA GROUPS */
+    .area-group { margin-bottom: 24px; }
+    .area-group:last-child { margin-bottom: 0; }
 
-    .task-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 9px 0;
+    .area-group-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 8px;
+      padding-bottom: 8px;
       border-bottom: 1px solid var(--border);
     }
 
-    .task-item:last-child { border-bottom: none; }
+    /* TASK ROW */
+    .task-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      transition: opacity 0.2s;
+    }
 
-    .p-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-    .dot-high { background: var(--red); }
-    .dot-medium { background: var(--yellow); }
-    .dot-low { background: var(--faint); }
+    .task-row:last-child { border-bottom: none; }
+    .task-row.done { opacity: 0.4; }
 
-    .task-name { flex: 1; font-size: 13px; }
+    /* Custom checkbox */
+    .task-check {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      border: 2px solid var(--border);
+      background: transparent;
+      flex-shrink: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+      position: relative;
+    }
 
-    .task-meta { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .task-check:hover { border-color: var(--pink); }
+
+    .task-check.checked {
+      background: linear-gradient(135deg, var(--pink), var(--peach));
+      border-color: transparent;
+    }
+
+    .task-check.checked::after {
+      content: '';
+      width: 10px;
+      height: 6px;
+      border-left: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      transform: rotate(-45deg) translateY(-1px);
+    }
+
+    .task-check.loading-check {
+      border-color: var(--peach);
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .task-content { flex: 1; min-width: 0; }
+
+    .task-name {
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    .task-row.done .task-name {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+
+    .task-notes {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .task-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
 
     .task-date { font-size: 11px; color: var(--muted); }
     .task-date.overdue { color: var(--red); font-weight: 600; }
@@ -215,104 +514,17 @@
 
     .owner-G { background: #fdf2f8; color: #be185d; }
     .owner-J { background: #eff6ff; color: var(--blue); }
-    .owner-B { background: var(--surface2); color: var(--muted); }
+    .owner-B { background: #f5f5f4; color: var(--muted); }
 
-    .s-not-started { background: #fef2f2; color: var(--red); }
-    .s-in-progress { background: #fffbeb; color: var(--yellow); }
-    .s-blocked { background: #fff7ed; color: var(--peach); }
-    .s-done { background: #f0fdf4; color: var(--green); }
+    .p-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-high { background: var(--red); }
+    .dot-medium { background: var(--yellow); }
+    .dot-low { background: var(--faint); }
 
-    .area-tag {
-      font-size: 10px;
-      color: var(--muted);
-      border: 1px solid var(--border);
-      padding: 2px 7px;
-      border-radius: 4px;
-    }
-
-    /* PIPELINE */
-    .pipeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-
-    .p-stage {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 16px 12px;
-      text-align: center;
-    }
-
-    .p-count {
-      font-size: 32px;
-      font-weight: 700;
-      line-height: 1;
-      margin-bottom: 6px;
-    }
-
-    .p-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
-
-    .c-idea { color: var(--faint); }
-    .c-scripted { color: var(--yellow); }
-    .c-filmed { color: var(--blue); }
-    .c-edited { color: var(--peach); }
-    .c-posted { color: var(--green); }
-
-    /* SPEND */
-    .spend-rows { display: flex; flex-direction: column; }
-
-    .spend-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 9px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .spend-row:last-child { border-bottom: none; }
-    .spend-name { font-size: 13px; }
-    .spend-by { font-size: 11px; color: var(--muted); margin-top: 1px; }
-    .spend-amt { font-size: 13px; font-weight: 600; }
-
-    .spend-total {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding-top: 14px;
-      margin-top: 6px;
-      border-top: 1px solid var(--border);
-    }
-
-    .spend-total-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
-
-    .spend-total-amt {
-      font-size: 22px;
-      font-weight: 700;
-      background: linear-gradient(90deg, var(--pink), var(--peach));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    /* MILESTONES */
-    .milestone-list { display: flex; flex-direction: column; }
-
-    .m-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 9px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .m-item:last-child { border-bottom: none; }
-
-    .m-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-    .m-name { flex: 1; font-size: 13px; }
-    .m-owner { font-size: 11px; color: var(--muted); }
-
-    /* UTIL */
+    /* ── LOADING / EMPTY ── */
     .loading {
       display: flex; align-items: center; justify-content: center;
-      height: 80px; color: var(--muted); font-size: 12px; gap: 8px;
+      height: 100px; color: var(--muted); font-size: 12px; gap: 8px;
     }
 
     .pulse {
@@ -327,12 +539,39 @@
     }
 
     .empty { color: var(--muted); font-size: 12px; padding: 20px 0; text-align: center; }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--text);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 10px 18px;
+      border-radius: 8px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.2s;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
-  <div class="logo">CRNT</div>
+  <div class="logo">
+    <div class="logo-wordmark">CRNT</div>
+    <div class="logo-dot"></div>
+  </div>
   <div class="header-right">
     <span class="last-updated" id="lastUpdated">Loading…</span>
     <button class="refresh-btn" onclick="loadData()">↻ Refresh</button>
@@ -341,198 +580,298 @@
 
 <main>
 
-  <div class="launch-bar">
-    <div class="launch-section">
-      <div class="section-label">Target Launch</div>
-      <div class="launch-date-text">25 July 2026</div>
+  <!-- SPEND BAR -->
+  <div class="spend-bar">
+    <div class="spend-total-block">
+      <div class="spend-label">Total Spent</div>
+      <div class="spend-total-number" id="spendTotal">—</div>
+      <div class="spend-currency">AUD (approx)</div>
     </div>
-    <div class="divider"></div>
-    <div class="launch-section">
-      <div class="section-label">Days to go</div>
-      <div class="countdown-number" id="daysLeft">—</div>
-    </div>
-    <div class="divider"></div>
-    <div class="chips">
-      <div class="chip now">Today — 18 Apr</div>
-      <div class="chip">Sachets — ~25 Apr</div>
-      <div class="chip">Flavour finalised — ~2 May</div>
-      <div class="chip">12 weeks from finalisation</div>
+    <div class="spend-divider"></div>
+    <div class="spend-items" id="spendItems">
+      <div class="loading"><span class="pulse"></span></div>
     </div>
   </div>
 
-  <div class="grid">
+  <!-- TOP ROW: Launch / Progress / Content -->
+  <div class="top-row">
 
-    <!-- TASKS -->
-    <div class="card full">
-      <div class="card-header">
-        <div class="card-title">Open Tasks</div>
-        <div class="card-count" id="taskCount"></div>
+    <!-- Launch countdown -->
+    <div class="launch-card">
+      <div class="card-label">Launch</div>
+      <div class="countdown-number" id="daysLeft">—</div>
+      <div style="font-size:12px;color:var(--muted);">days to go</div>
+      <div class="launch-date-text">25 July 2026</div>
+      <div class="timeline-list">
+        <div class="timeline-item">
+          <span class="timeline-item-label">Today</span>
+          <span class="timeline-item-date now">19 Apr 2026</span>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-item-label">Sachets arrive</span>
+          <span class="timeline-item-date">~25 Apr</span>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-item-label">Flavour finalised</span>
+          <span class="timeline-item-date">~2 May</span>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-item-label">12 weeks from</span>
+          <span class="timeline-item-date">2 May</span>
+        </div>
       </div>
+    </div>
+
+    <!-- Overall progress -->
+    <div class="card">
+      <div class="card-label">Overall Progress <span id="progressPct" style="color:var(--text)"></span></div>
+      <div class="progress-big" id="progressDone">—</div>
+      <div class="progress-sub" id="progressSub">tasks complete</div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+        </div>
+        <div class="progress-area-list" id="areaProgress">
+          <div class="loading"><span class="pulse"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content pipeline -->
+    <div class="card">
+      <div class="card-label">Content Pipeline</div>
+      <div class="pipeline-stages" id="pipeline">
+        <div class="loading"><span class="pulse"></span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="checklist-section">
+    <div class="checklist-header">
+      <div class="checklist-title">Tasks — <span id="openCount" style="color:var(--text)"></span></div>
       <div class="filter-row">
         <button class="filter-btn active" onclick="filterTasks('all',this)">All</button>
         <button class="filter-btn" onclick="filterTasks('Georgina',this)">Georgina</button>
         <button class="filter-btn" onclick="filterTasks('James',this)">James</button>
         <button class="filter-btn" onclick="filterTasks('Both',this)">Both</button>
-      </div>
-      <div class="task-list" id="taskList">
-        <div class="loading"><span class="pulse"></span> Fetching from Notion…</div>
+        <button class="filter-btn" onclick="filterTasks('done',this)">Done ✓</button>
       </div>
     </div>
-
-    <!-- PIPELINE -->
-    <div class="card full">
-      <div class="card-header"><div class="card-title">Content Pipeline</div></div>
-      <div class="pipeline" id="pipeline">
-        <div class="loading"><span class="pulse"></span></div>
-      </div>
+    <div id="taskList">
+      <div class="loading"><span class="pulse"></span> Fetching from Notion…</div>
     </div>
-
-    <!-- SPEND -->
-    <div class="card">
-      <div class="card-header"><div class="card-title">Spend to Date</div></div>
-      <div class="spend-rows" id="spendRows">
-        <div class="loading"><span class="pulse"></span></div>
-      </div>
-      <div class="spend-total">
-        <span class="spend-total-label">Total AUD (approx)</span>
-        <span class="spend-total-amt" id="spendTotal">—</span>
-      </div>
-    </div>
-
-    <!-- MILESTONES -->
-    <div class="card">
-      <div class="card-header"><div class="card-title">Milestones</div></div>
-      <div class="milestone-list" id="milestoneList"></div>
-    </div>
-
   </div>
+
 </main>
+
+<div class="toast" id="toast"></div>
 
 <script>
   const LAUNCH = new Date('2026-07-25');
   const AUD_PER_USD = 1.58;
-
-  const MILESTONES = [
-    { name: 'Sachets arrive + taste trial filmed', owner: 'Both', status: 'imminent' },
-    { name: 'Secure @crnt on Instagram + TikTok', owner: 'Both', status: 'not-started' },
-    { name: 'Website connected to domain', owner: 'James', status: 'not-started' },
-    { name: 'Post Day 1 founder video', owner: 'Both', status: 'not-started' },
-    { name: 'FSANZ magnesium compliance confirmed', owner: 'Georgina', status: 'in-progress' },
-    { name: 'Soft River palette + sachet design finalised', owner: 'Georgina', status: 'in-progress' },
-    { name: 'HK + AU Pty Ltd incorporated', owner: 'Both', status: 'not-started' },
-    { name: 'Transfer pricing docs in place', owner: 'Both', status: 'not-started' },
-    { name: 'Production run confirmed with CYOS', owner: 'Both', status: 'not-started' },
-  ];
-
-  const M_COLORS = { done:'#2d8a5e', 'in-progress':'#c47f17', imminent:'#f28444', 'not-started':'#d1cfc9' };
+  const AREA_ORDER = ['Marketing & Content','Product & Formulation','Brand & Design','Website','Company & Legal','Finance'];
 
   let allTasks = [];
   let currentFilter = 'all';
 
+  // ── Countdown ──
   function updateCountdown() {
     document.getElementById('daysLeft').textContent =
       Math.ceil((LAUNCH - new Date()) / 864e5);
   }
 
-  function formatDate(str) {
+  // ── Toast ──
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  }
+
+  // ── Format date ──
+  function fmtDate(str) {
     if (!str) return null;
     const d = new Date(str);
     const diff = Math.ceil((d - new Date().setHours(0,0,0,0)) / 864e5);
-    const label = d.toLocaleDateString('en-AU', { day:'numeric', month:'short' });
-    return { label, cls: 'task-date' + (diff < 0 ? ' overdue' : diff <= 7 ? ' soon' : '') };
+    return {
+      label: d.toLocaleDateString('en-AU', { day:'numeric', month:'short' }),
+      cls: 'task-date' + (diff < 0 ? ' overdue' : diff <= 7 ? ' soon' : '')
+    };
   }
 
+  // ── Toggle task (two-way Notion sync) ──
+  async function toggleTask(pageId, currentStatus, checkEl) {
+    const newStatus = currentStatus === 'Done' ? 'Not Started' : 'Done';
+    checkEl.classList.add('loading-check');
+    checkEl.classList.remove('checked');
+
+    try {
+      const res = await fetch('/api/notion', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pageId, status: newStatus })
+      });
+
+      if (!res.ok) throw new Error('Failed');
+
+      // Update local state
+      const task = allTasks.find(t => t.id === pageId);
+      if (task) task.status = newStatus;
+
+      checkEl.classList.remove('loading-check');
+      renderTasks(currentFilter);
+      renderProgress();
+      showToast(newStatus === 'Done' ? '✓ Marked as done' : 'Reopened');
+    } catch(e) {
+      checkEl.classList.remove('loading-check');
+      showToast('Error — try again');
+    }
+  }
+
+  // ── Render tasks ──
   function renderTasks(filter) {
-    const tasks = allTasks.filter(t =>
-      t.status !== 'Done' &&
-      (filter === 'all' || t.owner === filter || (filter !== 'Both' && t.owner === 'Both'))
-    );
-    document.getElementById('taskCount').textContent = tasks.length + ' open';
+    currentFilter = filter;
+    const list = document.getElementById('taskList');
+
+    let tasks;
+    if (filter === 'done') {
+      tasks = allTasks.filter(t => t.status === 'Done');
+    } else {
+      tasks = allTasks.filter(t =>
+        t.status !== 'Done' &&
+        (filter === 'all' || t.owner === filter || (filter !== 'Both' && t.owner === 'Both'))
+      );
+    }
+
+    const open = allTasks.filter(t => t.status !== 'Done').length;
+    document.getElementById('openCount').textContent = open + ' open';
 
     if (!tasks.length) {
-      document.getElementById('taskList').innerHTML = '<div class="empty">No open tasks here.</div>';
+      list.innerHTML = '<div class="empty">' + (filter === 'done' ? 'No completed tasks yet.' : 'No open tasks here.') + '</div>';
       return;
     }
 
-    const dotClass = p => p?.includes('High') ? 'dot-high' : p?.includes('Medium') ? 'dot-medium' : 'dot-low';
-    const sClass = s => ({'Not Started':'s-not-started','In Progress':'s-in-progress','Blocked':'s-blocked','Done':'s-done'})[s]||'';
-    const oClass = o => ({'Georgina':'owner-G','James':'owner-J','Both':'owner-B'})[o]||'owner-B';
+    // Group by area
+    const groups = {};
+    AREA_ORDER.forEach(a => groups[a] = []);
+    tasks.forEach(t => {
+      if (groups[t.area]) groups[t.area].push(t);
+      else groups['Other'] = [...(groups['Other']||[]), t];
+    });
 
-    document.getElementById('taskList').innerHTML = tasks.map(t => {
-      const date = formatDate(t.dueDate);
-      return `<div class="task-item">
-        <div class="p-dot ${dotClass(t.priority)}"></div>
-        <div class="task-name">${t.task}</div>
-        <div class="task-meta">
-          <span class="area-tag">${t.area||''}</span>
-          ${date ? `<span class="${date.cls}">${date.label}</span>` : ''}
-          <span class="pill ${oClass(t.owner)}">${t.owner}</span>
-          <span class="pill ${sClass(t.status)}">${t.status}</span>
-        </div>
-      </div>`;
-    }).join('');
+    const dotCls = p => p?.includes('High') ? 'dot-high' : p?.includes('Medium') ? 'dot-medium' : 'dot-low';
+    const oCls = o => ({'Georgina':'owner-G','James':'owner-J','Both':'owner-B'})[o]||'owner-B';
+
+    let html = '';
+    Object.entries(groups).forEach(([area, items]) => {
+      if (!items.length) return;
+      html += `<div class="area-group">
+        <div class="area-group-title">${area}</div>`;
+      items.forEach(t => {
+        const date = fmtDate(t.dueDate);
+        const isDone = t.status === 'Done';
+        html += `<div class="task-row ${isDone ? 'done' : ''}" id="row-${t.id}">
+          <div class="task-check ${isDone ? 'checked' : ''}" onclick="toggleTask('${t.id}','${t.status}',this)"></div>
+          <div class="task-content">
+            <div class="task-name">${t.task}</div>
+            ${t.notes ? `<div class="task-notes">${t.notes}</div>` : ''}
+          </div>
+          <div class="task-meta">
+            <div class="p-dot ${dotCls(t.priority)}"></div>
+            ${date ? `<span class="${date.cls}">${date.label}</span>` : ''}
+            <span class="pill ${oCls(t.owner)}">${t.owner}</span>
+          </div>
+        </div>`;
+      });
+      html += '</div>';
+    });
+
+    list.innerHTML = html;
   }
 
   function filterTasks(filter, btn) {
-    currentFilter = filter;
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     renderTasks(filter);
   }
 
+  // ── Render progress ──
+  function renderProgress() {
+    const total = allTasks.length;
+    const done = allTasks.filter(t => t.status === 'Done').length;
+    const pct = total ? Math.round(done / total * 100) : 0;
+
+    document.getElementById('progressDone').textContent = done;
+    document.getElementById('progressSub').textContent = `of ${total} tasks complete`;
+    document.getElementById('progressPct').textContent = pct + '%';
+    document.getElementById('progressBar').style.width = pct + '%';
+
+    // Per-area breakdown
+    let areaHtml = '';
+    AREA_ORDER.forEach(area => {
+      const areaTasks = allTasks.filter(t => t.area === area);
+      if (!areaTasks.length) return;
+      const areaDone = areaTasks.filter(t => t.status === 'Done').length;
+      const areaPct = Math.round(areaDone / areaTasks.length * 100);
+      areaHtml += `<div class="progress-area-row">
+        <span class="progress-area-name">${area.replace(' & ', ' &amp; ')}</span>
+        <div class="progress-area-track">
+          <div class="progress-area-fill" style="width:${areaPct}%"></div>
+        </div>
+        <span class="progress-area-pct">${areaPct}%</span>
+      </div>`;
+    });
+    document.getElementById('areaProgress').innerHTML = areaHtml;
+  }
+
+  // ── Render pipeline ──
   function renderPipeline(content) {
     const stages = ['Idea','Scripted','Filmed','Edited','Posted'];
     const cls = ['c-idea','c-scripted','c-filmed','c-edited','c-posted'];
+    const total = content.length || 1;
     const counts = Object.fromEntries(stages.map(s => [s, 0]));
     content.forEach(c => { if (counts[c.status] !== undefined) counts[c.status]++; });
-    document.getElementById('pipeline').innerHTML = stages.map((s,i) =>
-      `<div class="p-stage">
-        <div class="p-count ${cls[i]}">${counts[s]}</div>
-        <div class="p-label">${s}</div>
-      </div>`
-    ).join('');
+
+    document.getElementById('pipeline').innerHTML = stages.map((s, i) => `
+      <div class="pipeline-stage-row ${cls[i]}">
+        <span class="stage-name">${s}</span>
+        <div class="stage-track"><div class="stage-fill" style="width:${Math.round(counts[s]/total*100)}%"></div></div>
+        <span class="stage-count">${counts[s]}</span>
+      </div>`).join('');
   }
 
-  function renderSpend(spend) {
-    let total = 0;
-    document.getElementById('spendRows').innerHTML = spend.map(s => {
-      total += s.aud + s.usd * AUD_PER_USD;
-      const display = s.aud > 0 ? `$${s.aud.toFixed(2)} AUD` : `$${s.usd.toFixed(2)} USD`;
-      return `<div class="spend-row">
-        <div><div class="spend-name">${s.item}</div><div class="spend-by">${s.paidBy}</div></div>
-        <div class="spend-amt">${display}</div>
-      </div>`;
-    }).join('');
-    document.getElementById('spendTotal').textContent = `$${total.toFixed(2)}`;
+  // ── Render spend ──
+  function renderSpend(spend, totalAUD) {
+    document.getElementById('spendTotal').textContent = '$' + totalAUD.toFixed(2);
+    document.getElementById('spendItems').innerHTML = spend.map(s => `
+      <div class="spend-item">
+        <div class="spend-item-name">${s.item}</div>
+        <div class="spend-item-meta">${s.paidBy}</div>
+        <div class="spend-item-amt">${s.aud > 0 ? '$'+s.aud.toFixed(2)+' AUD' : '$'+s.usd.toFixed(2)+' USD'}</div>
+      </div>`).join('');
   }
 
-  function renderMilestones() {
-    document.getElementById('milestoneList').innerHTML = MILESTONES.map(m =>
-      `<div class="m-item">
-        <div class="m-dot" style="background:${M_COLORS[m.status]}"></div>
-        <div class="m-name">${m.name}</div>
-        <div class="m-owner">${m.owner}</div>
-      </div>`
-    ).join('');
-  }
-
+  // ── Load all data ──
   async function loadData() {
+    document.getElementById('lastUpdated').textContent = 'Refreshing…';
     try {
-      document.getElementById('lastUpdated').textContent = 'Refreshing…';
       const data = await fetch('/api/notion').then(r => r.json());
       allTasks = data.tasks || [];
       renderTasks(currentFilter);
+      renderProgress();
       renderPipeline(data.content || []);
-      renderSpend(data.spend || []);
+      renderSpend(data.spend || [], data.totalAUD || 0);
       document.getElementById('lastUpdated').textContent =
         'Updated ' + new Date().toLocaleTimeString('en-AU', { hour:'2-digit', minute:'2-digit' });
     } catch(e) {
-      document.getElementById('lastUpdated').textContent = 'Error — check API key';
+      document.getElementById('lastUpdated').textContent = 'Error loading data';
+      console.error(e);
     }
   }
 
   updateCountdown();
-  renderMilestones();
   loadData();
   setInterval(loadData, 300000);
 </script>
