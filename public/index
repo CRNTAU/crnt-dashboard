@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRNT — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f7f6f3;
+      --surface: #ffffff;
+      --surface2: #f2f1ee;
+      --border: #e8e6e1;
+      --text: #1a1916;
+      --muted: #9c9a94;
+      --faint: #c8c6c0;
+      --pink: #e8407a;
+      --peach: #f28444;
+      --green: #2d8a5e;
+      --yellow: #c47f17;
+      --red: #c0392b;
+      --blue: #2563ab;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      background: linear-gradient(90deg, var(--pink), var(--peach));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-right { display: flex; align-items: center; gap: 16px; }
+
+    .last-updated { color: var(--muted); font-size: 11px; }
+
+    .refresh-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 11px;
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .refresh-btn:hover { color: var(--text); border-color: var(--faint); }
+
+    main { padding: 24px 40px 48px; }
+
+    /* LAUNCH BAR */
+    .launch-bar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      margin-bottom: 16px;
+    }
+
+    .launch-section { display: flex; flex-direction: column; }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .launch-date-text {
+      font-family: 'Instrument Serif', serif;
+      font-size: 20px;
+      color: var(--text);
+    }
+
+    .divider { width: 1px; height: 36px; background: var(--border); flex-shrink: 0; }
+
+    .countdown-number {
+      font-size: 38px;
+      font-weight: 700;
+      line-height: 1;
+      background: linear-gradient(90deg, var(--pink), var(--peach));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .chip {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .chip.now { border-color: var(--peach); color: var(--peach); }
+
+    /* GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 24px;
+    }
+
+    .card.full { grid-column: 1 / -1; }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .card-count { font-size: 11px; color: var(--faint); }
+
+    /* FILTER */
+    .filter-row { display: flex; gap: 6px; margin-bottom: 14px; }
+
+    .filter-btn {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+
+    .filter-btn.active { background: var(--text); color: #fff; border-color: var(--text); }
+
+    /* TASKS */
+    .task-list { display: flex; flex-direction: column; }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .task-item:last-child { border-bottom: none; }
+
+    .p-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-high { background: var(--red); }
+    .dot-medium { background: var(--yellow); }
+    .dot-low { background: var(--faint); }
+
+    .task-name { flex: 1; font-size: 13px; }
+
+    .task-meta { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+    .task-date { font-size: 11px; color: var(--muted); }
+    .task-date.overdue { color: var(--red); font-weight: 600; }
+    .task-date.soon { color: var(--yellow); font-weight: 500; }
+
+    .pill {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .owner-G { background: #fdf2f8; color: #be185d; }
+    .owner-J { background: #eff6ff; color: var(--blue); }
+    .owner-B { background: var(--surface2); color: var(--muted); }
+
+    .s-not-started { background: #fef2f2; color: var(--red); }
+    .s-in-progress { background: #fffbeb; color: var(--yellow); }
+    .s-blocked { background: #fff7ed; color: var(--peach); }
+    .s-done { background: #f0fdf4; color: var(--green); }
+
+    .area-tag {
+      font-size: 10px;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    /* PIPELINE */
+    .pipeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+
+    .p-stage {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 12px;
+      text-align: center;
+    }
+
+    .p-count {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .p-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    .c-idea { color: var(--faint); }
+    .c-scripted { color: var(--yellow); }
+    .c-filmed { color: var(--blue); }
+    .c-edited { color: var(--peach); }
+    .c-posted { color: var(--green); }
+
+    /* SPEND */
+    .spend-rows { display: flex; flex-direction: column; }
+
+    .spend-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .spend-row:last-child { border-bottom: none; }
+    .spend-name { font-size: 13px; }
+    .spend-by { font-size: 11px; color: var(--muted); margin-top: 1px; }
+    .spend-amt { font-size: 13px; font-weight: 600; }
+
+    .spend-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-top: 14px;
+      margin-top: 6px;
+      border-top: 1px solid var(--border);
+    }
+
+    .spend-total-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+
+    .spend-total-amt {
+      font-size: 22px;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--pink), var(--peach));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* MILESTONES */
+    .milestone-list { display: flex; flex-direction: column; }
+
+    .m-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .m-item:last-child { border-bottom: none; }
+
+    .m-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .m-name { flex: 1; font-size: 13px; }
+    .m-owner { font-size: 11px; color: var(--muted); }
+
+    /* UTIL */
+    .loading {
+      display: flex; align-items: center; justify-content: center;
+      height: 80px; color: var(--muted); font-size: 12px; gap: 8px;
+    }
+
+    .pulse {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--pink);
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    .empty { color: var(--muted); font-size: 12px; padding: 20px 0; text-align: center; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">CRNT</div>
+  <div class="header-right">
+    <span class="last-updated" id="lastUpdated">Loading…</span>
+    <button class="refresh-btn" onclick="loadData()">↻ Refresh</button>
+  </div>
+</header>
+
+<main>
+
+  <div class="launch-bar">
+    <div class="launch-section">
+      <div class="section-label">Target Launch</div>
+      <div class="launch-date-text">25 July 2026</div>
+    </div>
+    <div class="divider"></div>
+    <div class="launch-section">
+      <div class="section-label">Days to go</div>
+      <div class="countdown-number" id="daysLeft">—</div>
+    </div>
+    <div class="divider"></div>
+    <div class="chips">
+      <div class="chip now">Today — 18 Apr</div>
+      <div class="chip">Sachets — ~25 Apr</div>
+      <div class="chip">Flavour finalised — ~2 May</div>
+      <div class="chip">12 weeks from finalisation</div>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!-- TASKS -->
+    <div class="card full">
+      <div class="card-header">
+        <div class="card-title">Open Tasks</div>
+        <div class="card-count" id="taskCount"></div>
+      </div>
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="filterTasks('all',this)">All</button>
+        <button class="filter-btn" onclick="filterTasks('Georgina',this)">Georgina</button>
+        <button class="filter-btn" onclick="filterTasks('James',this)">James</button>
+        <button class="filter-btn" onclick="filterTasks('Both',this)">Both</button>
+      </div>
+      <div class="task-list" id="taskList">
+        <div class="loading"><span class="pulse"></span> Fetching from Notion…</div>
+      </div>
+    </div>
+
+    <!-- PIPELINE -->
+    <div class="card full">
+      <div class="card-header"><div class="card-title">Content Pipeline</div></div>
+      <div class="pipeline" id="pipeline">
+        <div class="loading"><span class="pulse"></span></div>
+      </div>
+    </div>
+
+    <!-- SPEND -->
+    <div class="card">
+      <div class="card-header"><div class="card-title">Spend to Date</div></div>
+      <div class="spend-rows" id="spendRows">
+        <div class="loading"><span class="pulse"></span></div>
+      </div>
+      <div class="spend-total">
+        <span class="spend-total-label">Total AUD (approx)</span>
+        <span class="spend-total-amt" id="spendTotal">—</span>
+      </div>
+    </div>
+
+    <!-- MILESTONES -->
+    <div class="card">
+      <div class="card-header"><div class="card-title">Milestones</div></div>
+      <div class="milestone-list" id="milestoneList"></div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  const LAUNCH = new Date('2026-07-25');
+  const AUD_PER_USD = 1.58;
+
+  const MILESTONES = [
+    { name: 'Sachets arrive + taste trial filmed', owner: 'Both', status: 'imminent' },
+    { name: 'Secure @crnt on Instagram + TikTok', owner: 'Both', status: 'not-started' },
+    { name: 'Website connected to domain', owner: 'James', status: 'not-started' },
+    { name: 'Post Day 1 founder video', owner: 'Both', status: 'not-started' },
+    { name: 'FSANZ magnesium compliance confirmed', owner: 'Georgina', status: 'in-progress' },
+    { name: 'Soft River palette + sachet design finalised', owner: 'Georgina', status: 'in-progress' },
+    { name: 'HK + AU Pty Ltd incorporated', owner: 'Both', status: 'not-started' },
+    { name: 'Transfer pricing docs in place', owner: 'Both', status: 'not-started' },
+    { name: 'Production run confirmed with CYOS', owner: 'Both', status: 'not-started' },
+  ];
+
+  const M_COLORS = { done:'#2d8a5e', 'in-progress':'#c47f17', imminent:'#f28444', 'not-started':'#d1cfc9' };
+
+  let allTasks = [];
+  let currentFilter = 'all';
+
+  function updateCountdown() {
+    document.getElementById('daysLeft').textContent =
+      Math.ceil((LAUNCH - new Date()) / 864e5);
+  }
+
+  function formatDate(str) {
+    if (!str) return null;
+    const d = new Date(str);
+    const diff = Math.ceil((d - new Date().setHours(0,0,0,0)) / 864e5);
+    const label = d.toLocaleDateString('en-AU', { day:'numeric', month:'short' });
+    return { label, cls: 'task-date' + (diff < 0 ? ' overdue' : diff <= 7 ? ' soon' : '') };
+  }
+
+  function renderTasks(filter) {
+    const tasks = allTasks.filter(t =>
+      t.status !== 'Done' &&
+      (filter === 'all' || t.owner === filter || (filter !== 'Both' && t.owner === 'Both'))
+    );
+    document.getElementById('taskCount').textContent = tasks.length + ' open';
+
+    if (!tasks.length) {
+      document.getElementById('taskList').innerHTML = '<div class="empty">No open tasks here.</div>';
+      return;
+    }
+
+    const dotClass = p => p?.includes('High') ? 'dot-high' : p?.includes('Medium') ? 'dot-medium' : 'dot-low';
+    const sClass = s => ({'Not Started':'s-not-started','In Progress':'s-in-progress','Blocked':'s-blocked','Done':'s-done'})[s]||'';
+    const oClass = o => ({'Georgina':'owner-G','James':'owner-J','Both':'owner-B'})[o]||'owner-B';
+
+    document.getElementById('taskList').innerHTML = tasks.map(t => {
+      const date = formatDate(t.dueDate);
+      return `<div class="task-item">
+        <div class="p-dot ${dotClass(t.priority)}"></div>
+        <div class="task-name">${t.task}</div>
+        <div class="task-meta">
+          <span class="area-tag">${t.area||''}</span>
+          ${date ? `<span class="${date.cls}">${date.label}</span>` : ''}
+          <span class="pill ${oClass(t.owner)}">${t.owner}</span>
+          <span class="pill ${sClass(t.status)}">${t.status}</span>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function filterTasks(filter, btn) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderTasks(filter);
+  }
+
+  function renderPipeline(content) {
+    const stages = ['Idea','Scripted','Filmed','Edited','Posted'];
+    const cls = ['c-idea','c-scripted','c-filmed','c-edited','c-posted'];
+    const counts = Object.fromEntries(stages.map(s => [s, 0]));
+    content.forEach(c => { if (counts[c.status] !== undefined) counts[c.status]++; });
+    document.getElementById('pipeline').innerHTML = stages.map((s,i) =>
+      `<div class="p-stage">
+        <div class="p-count ${cls[i]}">${counts[s]}</div>
+        <div class="p-label">${s}</div>
+      </div>`
+    ).join('');
+  }
+
+  function renderSpend(spend) {
+    let total = 0;
+    document.getElementById('spendRows').innerHTML = spend.map(s => {
+      total += s.aud + s.usd * AUD_PER_USD;
+      const display = s.aud > 0 ? `$${s.aud.toFixed(2)} AUD` : `$${s.usd.toFixed(2)} USD`;
+      return `<div class="spend-row">
+        <div><div class="spend-name">${s.item}</div><div class="spend-by">${s.paidBy}</div></div>
+        <div class="spend-amt">${display}</div>
+      </div>`;
+    }).join('');
+    document.getElementById('spendTotal').textContent = `$${total.toFixed(2)}`;
+  }
+
+  function renderMilestones() {
+    document.getElementById('milestoneList').innerHTML = MILESTONES.map(m =>
+      `<div class="m-item">
+        <div class="m-dot" style="background:${M_COLORS[m.status]}"></div>
+        <div class="m-name">${m.name}</div>
+        <div class="m-owner">${m.owner}</div>
+      </div>`
+    ).join('');
+  }
+
+  async function loadData() {
+    try {
+      document.getElementById('lastUpdated').textContent = 'Refreshing…';
+      const data = await fetch('/api/notion').then(r => r.json());
+      allTasks = data.tasks || [];
+      renderTasks(currentFilter);
+      renderPipeline(data.content || []);
+      renderSpend(data.spend || []);
+      document.getElementById('lastUpdated').textContent =
+        'Updated ' + new Date().toLocaleTimeString('en-AU', { hour:'2-digit', minute:'2-digit' });
+    } catch(e) {
+      document.getElementById('lastUpdated').textContent = 'Error — check API key';
+    }
+  }
+
+  updateCountdown();
+  renderMilestones();
+  loadData();
+  setInterval(loadData, 300000);
+</script>
+</body>
+</html>
